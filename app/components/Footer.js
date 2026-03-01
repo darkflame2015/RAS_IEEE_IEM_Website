@@ -2,18 +2,15 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
 if (typeof window !== "undefined") {
-    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+    gsap.registerPlugin(ScrollTrigger);
 }
 
 export default function Footer() {
     const footerRef = useRef(null);
-    const pathname = usePathname();
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -34,22 +31,6 @@ export default function Footer() {
         return () => ctx.revert();
     }, []);
 
-    const handleScroll = (e, target) => {
-        const isHome = pathname === "/";
-        if (isHome) {
-            e.preventDefault();
-            const el = document.querySelector(target);
-            if (el) {
-                gsap.to(window, {
-                    scrollTo: { y: el, offsetY: 80 },
-                    duration: 1.2,
-                    ease: "power3.inOut",
-                });
-            }
-        }
-        // If not home, the href="/#section" will navigate naturally
-    };
-
     return (
         <footer className="footer" ref={footerRef} id="footer">
             <div className="footer__inner">
@@ -60,15 +41,15 @@ export default function Footer() {
                     <Link href="/about" className="footer__link">
                         About
                     </Link>
-                    <a href="/#features" className="footer__link" onClick={(e) => handleScroll(e, "#features")}>
+                    <Link href="/events" className="footer__link">
                         Events
-                    </a>
-                    <a href="/#members" className="footer__link" onClick={(e) => handleScroll(e, "#members")}>
-                        Team
-                    </a>
-                    <a href="/#contact" className="footer__link" onClick={(e) => handleScroll(e, "#contact")}>
+                    </Link>
+                    <Link href="/gallery" className="footer__link">
+                        Gallery
+                    </Link>
+                    <Link href="/contact" className="footer__link">
                         Contact
-                    </a>
+                    </Link>
                 </div>
                 <p className="footer__copy">
                     &copy; {new Date().getFullYear()} IEEE Robotics &amp; Automation Society — Student Chapter. All rights reserved.

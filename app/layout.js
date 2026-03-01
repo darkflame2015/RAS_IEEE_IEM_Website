@@ -1,4 +1,5 @@
 import "./globals.css";
+import CustomCursor from "./components/CustomCursor";
 
 export const metadata = {
   title: "IEEE RAS Society — Robotics & Automation",
@@ -22,7 +23,10 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <CustomCursor />
+        {children}
+      </body>
     </html>
   );
 }

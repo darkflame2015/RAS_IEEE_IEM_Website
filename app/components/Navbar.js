@@ -14,9 +14,9 @@ if (typeof window !== "undefined") {
 const NAV_ITEMS = [
     { label: "Home", href: "/", scroll: null },
     { label: "About", href: "/about", scroll: null },
-    { label: "Events", href: "/#features", scroll: "#features" },
-    { label: "Team", href: "/#members", scroll: "#members" },
-    { label: "Contact", href: "/#contact", scroll: "#contact" },
+    { label: "Events", href: "/events", scroll: null },
+    { label: "Gallery", href: "/gallery", scroll: null },
+    { label: "Contact", href: "/contact", scroll: null },
 ];
 
 export default function Navbar() {
@@ -25,18 +25,16 @@ export default function Navbar() {
     const linksRef = useRef(null);
     const glassRef = useRef(null);
     const linkRefs = useRef([]);
-    // Always start with 0 on both server and client to avoid hydration mismatch
+    const ctaBtnRef = useRef(null);
+    const ctaGlowRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
     const [mounted, setMounted] = useState(false);
 
-    // After mount, set the correct active index from pathname
+    // Set correct active index based on pathname
     useEffect(() => {
         setMounted(true);
-        if (pathname === "/about") {
-            setActiveIndex(1);
-        } else {
-            setActiveIndex(0);
-        }
+        const pathMap = { "/": 0, "/about": 1, "/events": 2, "/gallery": 3, "/contact": 4 };
+        setActiveIndex(pathMap[pathname] ?? 0);
     }, [pathname]);
 
     const slideGlassTo = useCallback((el, animate = true) => {
@@ -62,21 +60,57 @@ export default function Navbar() {
     useEffect(() => {
         if (!mounted) return;
         const isHome = pathname === "/";
-        const delay = isHome ? 2.6 : 0.3;
 
         if (navRef.current) {
-            gsap.fromTo(
-                navRef.current,
-                { opacity: 0, y: -20, filter: "blur(10px)" },
-                {
-                    opacity: 1, y: 0, filter: "blur(0px)",
-                    duration: 1, delay, ease: "power3.out",
-                    onComplete: () => {
-                        const el = linkRefs.current[activeIndex];
-                        if (el) slideGlassTo(el, false);
-                    },
-                }
-            );
+            if (isHome) {
+                // Animate entrance only on homepage
+                gsap.fromTo(
+                    navRef.current,
+                    { opacity: 0, y: -20, filter: "blur(10px)" },
+                    {
+                        opacity: 1, y: 0, filter: "blur(0px)",
+                        duration: 1, delay: 2.6, ease: "power3.out",
+                        onComplete: () => {
+                            const el = linkRefs.current[activeIndex];
+                            if (el) slideGlassTo(el, false);
+                        },
+                    }
+                );
+            } else {
+                // Static on all other pages — no animation
+                gsap.set(navRef.current, { opacity: 1, y: 0, filter: "blur(0px)" });
+                const el = linkRefs.current[activeIndex];
+                if (el) slideGlassTo(el, false);
+            }
+        }
+
+        // CTA glow animation
+        if (ctaGlowRef.current) {
+            gsap.to(ctaGlowRef.current, {
+                opacity: 0.8,
+                scale: 1.15,
+                duration: 1.5,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+                delay: isHome ? 3.6 : 0.5,
+            });
+        }
+
+        // CTA magnetic effect
+        const btn = ctaBtnRef.current;
+        if (btn) {
+            const handleMove = (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                gsap.to(btn, { x: x * 0.25, y: y * 0.25, duration: 0.4, ease: "power2.out" });
+            };
+            const handleLeave = () => {
+                gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.4)" });
+            };
+            btn.addEventListener("mousemove", handleMove);
+            btn.addEventListener("mouseleave", handleLeave);
         }
     }, [mounted, pathname, activeIndex, slideGlassTo]);
 
@@ -167,32 +201,20 @@ export default function Navbar() {
                 </ul>
             </div>
 
-            <button
-                className="navbar__cta"
-                id="navbar-cta"
-                onClick={(e) => {
-                    e.preventDefault();
-                    setActiveIndex(4);
-                    const el = linkRefs.current[4];
-                    if (el) slideGlassTo(el, true);
-
-                    const isHome = pathname === "/";
-                    if (isHome) {
-                        const target = document.querySelector("#contact");
-                        if (target) {
-                            gsap.to(window, {
-                                scrollTo: { y: target, offsetY: 80 },
-                                duration: 1.2,
-                                ease: "power3.inOut",
-                            });
-                        }
-                    } else {
-                        window.location.href = "/#contact";
-                    }
-                }}
-            >
-                Join Chapter
-            </button>
+            <div className="glow-btn-wrapper navbar__cta-wrapper">
+                <button
+                    className="glow-btn navbar__cta"
+                    id="navbar-cta"
+                    ref={ctaBtnRef}
+                    onClick={() => {
+                        window.location.href = "/contact";
+                    }}
+                >
+                    <span className="glow-btn__glow" ref={ctaGlowRef} />
+                    <span className="glow-btn__text">Join the Revolution</span>
+                    <span className="glow-btn__arrow">→</span>
+                </button>
+            </div>
         </nav>
     );
 }

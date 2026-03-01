@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import GlowButton from "./GlowButton";
 
 if (typeof window !== "undefined") {
     gsap.registerPlugin(ScrollTrigger);
@@ -24,19 +25,6 @@ export default function CTA() {
                         start: "top 80%",
                         toggleActions: "play none none none",
                     },
-                    onComplete: () => {
-                        // Underglow pulse on CTA button
-                        const btn = containerRef.current?.querySelector(".cta__btn");
-                        if (btn) {
-                            gsap.to(btn, {
-                                boxShadow: "0 6px 30px rgba(201, 24, 74, 0.35), 0 20px 60px -10px rgba(201, 24, 74, 0.5)",
-                                duration: 1.5,
-                                repeat: -1,
-                                yoyo: true,
-                                ease: "sine.inOut",
-                            });
-                        }
-                    },
                 }
             );
         }, sectionRef);
@@ -53,9 +41,11 @@ export default function CTA() {
                     exclusive workshops, hackathon teams, and a community that builds the future
                     of automation together.
                 </p>
-                <button className="cta__btn" id="cta-btn">
-                    Join the Chapter
-                </button>
+                <GlowButton
+                    text="Start Building with Us"
+                    href="/contact"
+                    id="cta-btn"
+                />
             </div>
         </section>
     );

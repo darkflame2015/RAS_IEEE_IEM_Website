@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { gsap } from "gsap";
 
 export default function Hero() {
@@ -14,6 +15,9 @@ export default function Hero() {
     const orb1Ref = useRef(null);
     const orb2Ref = useRef(null);
     const orb3Ref = useRef(null);
+    const primaryBtnRef = useRef(null);
+    const primaryGlowRef = useRef(null);
+    const router = useRouter();
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -71,11 +75,11 @@ export default function Hero() {
                 "-=0.5"
             );
 
-            // Underglow pulse on primary button
-            const primaryBtn = buttonsRef.current?.querySelector(".hero__btn--primary");
-            if (primaryBtn) {
-                gsap.to(primaryBtn, {
-                    boxShadow: "0 6px 30px rgba(201, 24, 74, 0.3), 0 20px 60px -10px rgba(201, 24, 74, 0.5)",
+            // Pulsing glow on primary button
+            if (primaryGlowRef.current) {
+                gsap.to(primaryGlowRef.current, {
+                    opacity: 0.8,
+                    scale: 1.15,
                     duration: 1.5,
                     repeat: -1,
                     yoyo: true,
@@ -83,15 +87,26 @@ export default function Hero() {
                     delay: 4,
                 });
             }
+
+            // Magnetic effect on primary button
+            const btn = primaryBtnRef.current;
+            if (btn) {
+                const handleMove = (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(btn, { x: x * 0.3, y: y * 0.3, duration: 0.4, ease: "power2.out" });
+                };
+                const handleLeave = () => {
+                    gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.4)" });
+                };
+                btn.addEventListener("mousemove", handleMove);
+                btn.addEventListener("mouseleave", handleLeave);
+            }
         }, sectionRef);
 
         return () => ctx.revert();
     }, []);
-
-    const scrollTo = (id) => {
-        const el = document.querySelector(id);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
-    };
 
     return (
         <section className="hero" ref={sectionRef} id="hero">
@@ -133,19 +148,27 @@ export default function Hero() {
             </p>
 
             <div className="hero__buttons" ref={buttonsRef}>
-                <button
-                    className="hero__btn hero__btn--primary"
-                    id="hero-cta-primary"
-                    onClick={() => scrollTo("#features")}
-                >
-                    Explore Events
-                </button>
+                <div className="glow-btn-wrapper">
+                    <button
+                        className="glow-btn hero__btn--primary"
+                        id="hero-cta-primary"
+                        ref={primaryBtnRef}
+                        onClick={() => router.push("/contact")}
+                    >
+                        <span className="glow-btn__glow" ref={primaryGlowRef} />
+                        <span className="glow-btn__text">Ignite Your Future</span>
+                        <span className="glow-btn__arrow">→</span>
+                    </button>
+                </div>
                 <button
                     className="hero__btn hero__btn--secondary"
                     id="hero-cta-secondary"
-                    onClick={() => scrollTo("#members")}
+                    onClick={() => {
+                        const el = document.querySelector("#members");
+                        if (el) el.scrollIntoView({ behavior: "smooth" });
+                    }}
                 >
-                    Meet the Team
+                    Discover the Squad
                 </button>
             </div>
         </section>
