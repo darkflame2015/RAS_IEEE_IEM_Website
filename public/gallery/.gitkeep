@@ -1,0 +1,2 @@
+Place gallery images here.
+Reference them in config/gallery.js as "/gallery/filename.jpg"

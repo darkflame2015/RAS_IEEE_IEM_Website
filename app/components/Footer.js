@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import siteConfig from "../../config/site";
 
 if (typeof window !== "undefined") {
     gsap.registerPlugin(ScrollTrigger);
@@ -35,24 +36,17 @@ export default function Footer() {
         <footer className="footer" ref={footerRef} id="footer">
             <div className="footer__inner">
                 <Link href="/" className="footer__brand">
-                    IEEE RAS Student Chapter
+                    {siteConfig.name}
                 </Link>
                 <div className="footer__links">
-                    <Link href="/about" className="footer__link">
-                        About
-                    </Link>
-                    <Link href="/events" className="footer__link">
-                        Events
-                    </Link>
-                    <Link href="/gallery" className="footer__link">
-                        Gallery
-                    </Link>
-                    <Link href="/contact" className="footer__link">
-                        Contact
-                    </Link>
+                    {siteConfig.footerLinks.map((link) => (
+                        <Link key={link.href} href={link.href} className="footer__link">
+                            {link.label}
+                        </Link>
+                    ))}
                 </div>
                 <p className="footer__copy">
-                    &copy; {new Date().getFullYear()} IEEE Robotics &amp; Automation Society — Student Chapter. All rights reserved.
+                    &copy; {new Date().getFullYear()} {siteConfig.copyrightEntity}. All rights reserved.
                 </p>
             </div>
         </footer>

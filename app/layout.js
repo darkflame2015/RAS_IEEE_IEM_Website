@@ -1,11 +1,15 @@
 import "./globals.css";
 import CustomCursor from "./components/CustomCursor";
+import siteConfig from "../config/site";
 
 export const metadata = {
-  title: "IEEE RAS Society — Robotics & Automation",
-  description:
-    "IEEE Robotics and Automation Society — Advancing innovation in robotics and automation through collaboration, research, and cutting-edge technology.",
-  keywords: "IEEE, RAS, robotics, automation, society, research, engineering",
+  title: `${siteConfig.name} — ${siteConfig.tagline}`,
+  description: siteConfig.description,
+  keywords: siteConfig.keywords,
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/icon-192.png",
+  },
 };
 
 export default function RootLayout({ children }) {

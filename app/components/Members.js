@@ -3,32 +3,14 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import membersData from "../../config/members";
+import siteConfig from "../../config/site";
 
 if (typeof window !== "undefined") {
     gsap.registerPlugin(ScrollTrigger);
 }
 
-const membersData = [
-    { name: "Dr. Ananya Sharma", role: "President" },
-    { name: "Rahul Verma", role: "Vice President" },
-    { name: "Priya Nair", role: "Secretary" },
-    { name: "Arjun Patel", role: "Treasurer" },
-    { name: "Sanya Gupta", role: "Technical Lead" },
-    { name: "Karthik Rajan", role: "Research Head" },
-    { name: "Meera Iyer", role: "Events Coordinator" },
-    { name: "Vikram Singh", role: "Workshop Lead" },
-    { name: "Divya Menon", role: "PR Manager" },
-    { name: "Aditya Kumar", role: "Web Developer" },
-    { name: "Neha Reddy", role: "Design Lead" },
-    { name: "Rohan Das", role: "Outreach Head" },
-];
-
-const avatarColors = [
-    ["#590d22", "#a4133c"], ["#800f2f", "#7b2cbf"], ["#a4133c", "#590d22"],
-    ["#c9184a", "#800f2f"], ["#7b2cbf", "#c9184a"], ["#b23a48", "#7b2cbf"],
-    ["#590d22", "#b23a48"], ["#800f2f", "#c9184a"], ["#a4133c", "#7b2cbf"],
-    ["#c9184a", "#590d22"], ["#7b2cbf", "#a4133c"], ["#b23a48", "#800f2f"],
-];
+const avatarColors = siteConfig.gradients;
 
 function getInitials(name) {
     return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2);
@@ -38,11 +20,20 @@ function getInitials(name) {
 // Filled black professional icons
 const ICONS = [
     {
-        id: "gear", x: "4%", y: "8%",
+        id: "robot", x: "4%", y: "8%",
         motion: { x: -60, y: 80, rotation: 180 },
         svg: (
             <svg viewBox="0 0 64 64" fill="black" xmlns="http://www.w3.org/2000/svg">
-                <path d="M54.6 36.8l-4.2-1c-.4-1.3-.9-2.5-1.6-3.6l2.2-3.8a2 2 0 00-.3-2.4l-4.7-4.7a2 2 0 00-2.4-.3l-3.8 2.2c-1.1-.7-2.3-1.2-3.6-1.6l-1-4.2A2 2 0 0033.3 16h-6.6a2 2 0 00-2 1.5l-1 4.2c-1.3.4-2.5.9-3.6 1.6l-3.8-2.2a2 2 0 00-2.4.3l-4.7 4.7a2 2 0 00-.3 2.4l2.2 3.8c-.7 1.1-1.2 2.3-1.6 3.6l-4.2 1A2 2 0 008 38.7v6.6a2 2 0 001.5 2l4.2 1c.4 1.3.9 2.5 1.6 3.6l-2.2 3.8a2 2 0 00.3 2.4l4.7 4.7a2 2 0 002.4.3l3.8-2.2c1.1.7 2.3 1.2 3.6 1.6l1 4.2A2 2 0 0030.7 70h6.6a2 2 0 002-1.5l1-4.2c1.3-.4 2.5-.9 3.6-1.6l3.8 2.2a2 2 0 002.4-.3l4.7-4.7a2 2 0 00.3-2.4l-2.2-3.8c.7-1.1 1.2-2.3 1.6-3.6l4.2-1A2 2 0 0056 45.3v-6.6a2 2 0 00-1.4-1.9zM34 50a8 8 0 110-16 8 8 0 010 16z" transform="translate(-2 -10)" />
+                <rect x="14" y="22" width="36" height="30" rx="6" />
+                <circle cx="24" cy="36" r="4" fill="white" />
+                <circle cx="40" cy="36" r="4" fill="white" />
+                <rect x="26" y="44" width="12" height="4" rx="2" fill="white" />
+                <rect x="28" y="10" width="8" height="14" rx="4" />
+                <circle cx="32" cy="8" r="4" />
+                <rect x="6" y="30" width="8" height="6" rx="3" />
+                <rect x="50" y="30" width="8" height="6" rx="3" />
+                <rect x="20" y="52" width="6" height="8" rx="3" />
+                <rect x="38" y="52" width="6" height="8" rx="3" />
             </svg>
         ),
     },
@@ -67,25 +58,7 @@ const ICONS = [
             </svg>
         ),
     },
-    {
-        id: "bolt", x: "75%", y: "65%",
-        motion: { x: 70, y: -60, rotation: 90 },
-        svg: (
-            <svg viewBox="0 0 64 64" fill="black" xmlns="http://www.w3.org/2000/svg">
-                <path d="M38 2L10 36h22l-6 26L54 28H32L38 2z" />
-            </svg>
-        ),
-    },
-    {
-        id: "hexchip", x: "48%", y: "2%",
-        motion: { x: -30, y: 100, rotation: -90 },
-        svg: (
-            <svg viewBox="0 0 64 64" fill="black" xmlns="http://www.w3.org/2000/svg">
-                <path d="M32 4L8 18v28l24 14 24-14V18L32 4zm0 8l18 10.5V41.5L32 52 14 41.5V22.5L32 12z" />
-                <circle cx="32" cy="32" r="6" />
-            </svg>
-        ),
-    },
+
     {
         id: "atom", x: "62%", y: "78%",
         motion: { x: 40, y: -80, rotation: 150 },
@@ -112,15 +85,6 @@ const ICONS = [
                 <line x1="44" y1="20" x2="32" y2="32" stroke="black" strokeWidth="3" />
                 <line x1="20" y1="44" x2="32" y2="32" stroke="black" strokeWidth="3" />
                 <line x1="44" y1="44" x2="32" y2="32" stroke="black" strokeWidth="3" />
-            </svg>
-        ),
-    },
-    {
-        id: "wrench", x: "5%", y: "60%",
-        motion: { x: -50, y: 60, rotation: 130 },
-        svg: (
-            <svg viewBox="0 0 64 64" fill="black" xmlns="http://www.w3.org/2000/svg">
-                <path d="M55.4 8.6a2 2 0 00-2.8 0l-8.7 8.7-4.2-1.4-1.4-4.2 8.7-8.7a2 2 0 000-2.8 14 14 0 00-19.2 19.2l-22 22a6 6 0 008.5 8.5l22-22A14 14 0 0055.4 8.6z" />
             </svg>
         ),
     },
@@ -325,9 +289,24 @@ export default function Members() {
                                         fontSize: "3.5rem", fontWeight: 700,
                                         fontFamily: "var(--font-primary)",
                                         color: "rgba(255,255,255,0.25)", letterSpacing: "0.05em",
+                                        position: "relative",
                                     }}
                                 >
-                                    {getInitials(member.name)}
+                                    {member.image ? (
+                                        <img
+                                            src={member.image}
+                                            alt={member.name}
+                                            style={{
+                                                width: "100%",
+                                                height: "100%",
+                                                objectFit: "contain",
+                                                position: "absolute",
+                                                inset: 0,
+                                            }}
+                                        />
+                                    ) : (
+                                        getInitials(member.name)
+                                    )}
                                 </div>
                             </div>
                             <div className="member-card__info">

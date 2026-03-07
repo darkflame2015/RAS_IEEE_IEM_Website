@@ -6,18 +6,17 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import siteConfig from "../../config/site";
 
 if (typeof window !== "undefined") {
     gsap.registerPlugin(ScrollToPlugin);
 }
 
-const NAV_ITEMS = [
-    { label: "Home", href: "/", scroll: null },
-    { label: "About", href: "/about", scroll: null },
-    { label: "Events", href: "/events", scroll: null },
-    { label: "Gallery", href: "/gallery", scroll: null },
-    { label: "Contact", href: "/contact", scroll: null },
-];
+const NAV_ITEMS = siteConfig.navItems.map((item) => ({
+    label: item.label,
+    href: item.href,
+    scroll: null,
+}));
 
 export default function Navbar() {
     const pathname = usePathname();

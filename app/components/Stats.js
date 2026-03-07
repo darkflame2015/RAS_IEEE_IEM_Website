@@ -3,17 +3,11 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import statsData from "../../config/stats";
 
 if (typeof window !== "undefined") {
     gsap.registerPlugin(ScrollTrigger);
 }
-
-const statsData = [
-    { number: 200, suffix: "+", label: "Active Members" },
-    { number: 15, suffix: "+", label: "Events Per Year" },
-    { number: 10, suffix: "+", label: "Workshops Hosted" },
-    { number: 5, suffix: "+", label: "Hackathons Run" },
-];
 
 export default function Stats() {
     const sectionRef = useRef(null);
