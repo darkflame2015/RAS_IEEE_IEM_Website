@@ -14,6 +14,7 @@ export default function ContactPage() {
     const fieldsRef = useRef([]);
     const btnRef = useRef(null);
     const glowRef = useRef(null);
+    const registerBtnRef = useRef(null);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -72,13 +73,69 @@ export default function ContactPage() {
                     const rect = btn.getBoundingClientRect();
                     const x = e.clientX - rect.left - rect.width / 2;
                     const y = e.clientY - rect.top - rect.height / 2;
-                    gsap.to(btn, { x: x * 0.25, y: y * 0.25, duration: 0.4, ease: "power2.out" });
+                    gsap.to(btn, { x: x * 0.25, y: y * 0.25, duration: 0.1, ease: "power1.out" });
                 };
                 const handleLeave = () => {
                     gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.4)" });
                 };
                 btn.addEventListener("mousemove", handleMove);
                 btn.addEventListener("mouseleave", handleLeave);
+            }
+
+            /* ── Register IEEE RAS — clean GSAP animations ── */
+            const regContainer = registerBtnRef.current;
+            if (regContainer) {
+                const regBtn = regContainer.querySelector(".register-ras__btn");
+                const shimmer = regContainer.querySelector(".register-ras__shimmer");
+                const regGlow = regContainer.querySelector(".register-ras__glow");
+
+                // Entrance — bounce in
+                gsap.fromTo(regContainer,
+                    { opacity: 0, scale: 0.85, y: 20 },
+                    { opacity: 1, scale: 1, y: 0, duration: 1, delay: 1.6, ease: "elastic.out(1, 0.5)" }
+                );
+
+                // Shimmer sweep — periodic
+                if (shimmer) {
+                    gsap.fromTo(shimmer,
+                        { x: "-100%" },
+                        {
+                            x: "250%",
+                            duration: 1.5,
+                            repeat: -1,
+                            repeatDelay: 4,
+                            delay: 3,
+                            ease: "power2.inOut",
+                        }
+                    );
+                }
+
+                // Glow pulse
+                if (regGlow) {
+                    gsap.to(regGlow, {
+                        opacity: 0.7,
+                        scale: 1.15,
+                        duration: 2,
+                        repeat: -1,
+                        yoyo: true,
+                        ease: "sine.inOut",
+                    });
+                }
+
+                // Magnetic follow on hover
+                if (regBtn) {
+                    const handleRegMove = (e) => {
+                        const rect = regBtn.getBoundingClientRect();
+                        const x = e.clientX - rect.left - rect.width / 2;
+                        const y = e.clientY - rect.top - rect.height / 2;
+                        gsap.set(regBtn, { x: x * 0.25, y: y * 0.25 });
+                    };
+                    const handleRegLeave = () => {
+                        gsap.to(regBtn, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.4)" });
+                    };
+                    regBtn.addEventListener("mousemove", handleRegMove);
+                    regBtn.addEventListener("mouseleave", handleRegLeave);
+                }
             }
         }, sectionRef);
 
@@ -208,6 +265,20 @@ export default function ContactPage() {
                                     {loading ? "Transmitting..." : "Send Your Signal →"}
                                 </span>
                             </button>
+                            <div className="register-ras" ref={registerBtnRef}>
+                                <a
+                                    className="glow-btn register-ras__btn"
+                                    href="https://www.ieee.org/membership-catalog/productdetail/showProductDetailPage.html?product=MEMRA024&searchResults=Y"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <span className="glow-btn__glow register-ras__glow" />
+                                    <span className="register-ras__shimmer" />
+                                    <span className="glow-btn__text">
+                                        Register for IEEE RAS →
+                                    </span>
+                                </a>
+                            </div>
                         </div>
 
                         {status === "success" && (
