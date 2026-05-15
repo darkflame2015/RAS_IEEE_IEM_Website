@@ -1,5 +1,6 @@
 import "./globals.css";
 import CustomCursor from "./components/CustomCursor";
+import MobileMenu from "./components/MobileMenu";
 import siteConfig from "../config/site";
 
 export const metadata = {
@@ -29,6 +30,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <CustomCursor />
+        <MobileMenu />
         {children}
       </body>
     </html>

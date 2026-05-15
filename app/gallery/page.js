@@ -10,6 +10,15 @@ gsap.registerPlugin(ScrollTrigger);
 
 /* ── Photo data ── */
 const photos = [
+    /* ── STPI Visit — Cabinet Minister IT & Electronics ── */
+    { src: "/gallery/stpi-visit-team-drones.jpeg", caption: "STPI Visit — Team with Drones", span: "wide" },
+    { src: "/gallery/stpi-visit-minister-walkthrough.jpeg", caption: "Minister Walkthrough", span: "tall" },
+    { src: "/gallery/stpi-visit-minister-interaction.jpeg", caption: "Minister Interaction" },
+    { src: "/gallery/stpi-visit-vr-demo.jpeg", caption: "VR Demonstration" },
+    { src: "/gallery/stpi-visit-drone-demo.jpeg", caption: "Drone Demo to Dignitaries", span: "wide" },
+    { src: "/gallery/stpi-visit-student-presentation.jpeg", caption: "Student Presentation" },
+    { src: "/gallery/stpi-visit-handshake.jpeg", caption: "Felicitation Ceremony", span: "tall" },
+    /* ── Kolkata Tools Machine Show ── */
     { src: "/gallery/IMG20260510143006.jpg", caption: "Workshop Kickoff", span: "tall" },
     { src: "/gallery/20260510_144459.jpg", caption: "Team Collaboration" },
     { src: "/gallery/20260510_144620.jpg", caption: "Hands-on Session" },

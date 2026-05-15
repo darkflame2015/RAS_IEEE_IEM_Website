@@ -18,6 +18,15 @@ const events = [
             "An exclusive visit to the Kolkata Tools Machine Show — where our members explored cutting-edge industrial machinery, CNC equipment, laser engravers, and precision tools. A hands-on experience bridging robotics theory with real-world manufacturing.",
         image: "/gallery/IMG20260510143006.jpg",
     },
+    {
+        title: "STPI Visit of Cabinet Minister IT & Electronics & Inauguration with Doordarshan",
+        date: "February 24, 2026",
+        status: "Completed",
+        category: "Official Visit",
+        description:
+            "A landmark event at STPI where our IEEE RAS chapter showcased drone technology and VR demonstrations to the Cabinet Minister of IT & Electronics. The visit included an inauguration ceremony covered by Doordarshan, highlighting our chapter's contributions to robotics innovation and student-driven tech development.",
+        image: "/gallery/stpi-visit-team-drones.jpeg",
+    },
 ];
 
 export default function EventsPage() {
