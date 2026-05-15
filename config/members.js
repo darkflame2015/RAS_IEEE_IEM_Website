@@ -59,11 +59,6 @@ const membersData = [
         image: "/members/img_9.jpg",
     },
     {
-        name: "Abhinab Chatterjee",
-        role: "Project Lead",
-        image: "/members/img_10.jpg",
-    },
-    {
         name: "Paramartha Ghosh",
         role: "Graphics Lead",
         image: null, // Add image when available
